@@ -116,8 +116,9 @@ public class TreeUtil {
 			root.setData("ooo");
 			list.add(root);
 			constructTreeByOption(level + 1, list);
+			return;
 		}
-		if (level == h - 1) {
+		if (level == h) {
 			return;
 		}
 		String labels[] = { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R",
