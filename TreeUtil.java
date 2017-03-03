@@ -1,10 +1,7 @@
-package trees;
 
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.Stack;
-
-import trees.TreeUtil.Node;
 
 public class TreeUtil {
 
@@ -44,7 +41,7 @@ public class TreeUtil {
 
 		Node aux = null, aux2 = null;
 		while (!callSt.isEmpty()) {
-			
+
 			aux = (Node) callSt.peek();
 			if (aux.getLeft() == null && aux.getRight() == null) {
 				aux = (Node) callSt.pop();
@@ -53,7 +50,7 @@ public class TreeUtil {
 					break;
 				}
 				currentTOS = aux.getData();
-				if(callSt.isEmpty()){
+				if (callSt.isEmpty()) {
 					break;
 				}
 				aux = (Node) callSt.pop();
@@ -77,15 +74,15 @@ public class TreeUtil {
 
 		return result;
 	}
-	
+
 	public static String getPostSuccOf(Node root, String ele) {
 		String result = "None";
 		String currentTOS = "";
 		Stack callSt = new Stack();
 		callSt.push(root);
 		Node aux = null, aux2 = null;
- 		while (!callSt.isEmpty()) {
-			
+		while (!callSt.isEmpty()) {
+
 			aux = (Node) callSt.peek();
 			if (aux.getLeft() == null && aux.getRight() == null) {
 				aux = (Node) callSt.pop();
@@ -93,17 +90,48 @@ public class TreeUtil {
 					result = aux.getData();
 					break;
 				}
-				 
 				currentTOS = aux.getData();
+				if (callSt.isEmpty()) {
+					break;
+				}
+				aux = (Node) callSt.pop();
 
+				if (aux.getLeft() == null && aux.getRight() == null) {
+
+					if (currentTOS.equals(ele)) {
+						result = aux.getData();
+						break;
+					}
+					if (callSt.isEmpty()) {
+						break;
+					}
+					currentTOS = aux.getData();
+					aux = (Node) callSt.pop();
+					if (currentTOS.equals(ele)) {
+						result = aux.getData();
+						break;
+					}
+					currentTOS = aux.getData();
+					if(((Node)callSt.peek()).right.data.equals(currentTOS)){
+						aux = (Node) callSt.pop();
+						currentTOS = aux.getData();
+					}
+					continue;
+				}
+				callSt.push(aux);
+				if (aux.getRight() != null) {
+					callSt.push(aux.getRight());
+				}
+				if (aux.getLeft() != null) {
+					callSt.push(aux.getLeft());
+				}
+				 
 				continue;
 			}
 			aux = (Node) callSt.pop();
-			if (currentTOS.equals(ele)) {
-				result = aux.getData();
-				break;
+			if(aux.right.data.equals(currentTOS)){
+				continue;
 			}
-			currentTOS = aux.getData();
 			callSt.push(aux);
 			if (aux.getRight() != null) {
 				callSt.push(aux.getRight());
@@ -115,7 +143,7 @@ public class TreeUtil {
 
 		return result;
 	}
-	
+
 	public static String getPreSuccOf(Node root, String ele) {
 		String result = "None";
 		String currentTOS = "";
@@ -124,7 +152,7 @@ public class TreeUtil {
 
 		Node aux = null, aux2 = null;
 		while (!callSt.isEmpty()) {
-			
+
 			aux = (Node) callSt.peek();
 			if (aux.getLeft() == null && aux.getRight() == null) {
 				aux = (Node) callSt.pop();
@@ -132,7 +160,7 @@ public class TreeUtil {
 					result = aux.getData();
 					break;
 				}
-				
+
 				currentTOS = aux.getData();
 
 				continue;
@@ -153,7 +181,7 @@ public class TreeUtil {
 
 		return result;
 	}
-	
+
 	public static void main(String[] args) {
 		Scanner sc = new Scanner(System.in);
 		System.out.print("Enter the Height of the Tree:");
@@ -174,42 +202,41 @@ public class TreeUtil {
 		enode.setData(nq);
 		StringBuilder match = new StringBuilder();
 		getInorderSuccOf(root, nq, match);
-		if (match.toString().trim().equalsIgnoreCase("Y")) {
+		if (match.toString().trim().equalsIgnoreCase("Yes")) {
 			System.out.println("NO Inorder Successor for this node:");
 			// return;
 		} else {
 			System.out.println("Inorder succssor of " + nq + " is:=" + match.toString());
 		}
 
-		System.out.println("STACK-->"+getInorderSuccOf(root, nq));
-		
-		
+		System.out.println("STACK-->" + getInorderSuccOf(root, nq));
+
 		System.out.print("Enter the Node to Know PreOreder Successor:");
 		nq = sc.next();
 		enode.setData(nq);
 		match = new StringBuilder();
 		getPreorderSuccOf(root, nq, match);
-		if (match.toString().trim().equalsIgnoreCase("Y")) {
+		if (match.toString().trim().equalsIgnoreCase("Yes")) {
 			System.out.println("NO PreOrder Successor for this node:");
 		} else {
 			// getInorderSuccOf
 			System.out.println("PreOrder succssor of " + nq + " is:=" + match.toString());
 		}
-		System.out.println("STACK-->"+getPreSuccOf(root, nq));
-		
+		System.out.println("STACK-->" + getPreSuccOf(root, nq));
+
 		System.out.print("Enter the Node to Know PostOPrder Successor:");
 		nq = sc.next();
 		enode.setData(nq);
 		match = new StringBuilder();
 		getPostorderSuccOf(root, nq, match);
-		if (match.toString().trim().equalsIgnoreCase("Y")) {
+		if (match.toString().trim().equalsIgnoreCase("Yes")) {
 			System.out.println("NO PostOPrder Successor for this node:");
 		} else {
 			// getInorderSuccOf
 			System.out.println("PostOPrder succssor of " + nq + " is:=" + match.toString());
 		}
 
-		System.out.println("STACK-->"+getPostSuccOf(root, nq));
+		System.out.println("STACK-->" + getPostSuccOf(root, nq));
 		// System.out.println("Inorder succssor of " + enode.getData() + "
 		// is:="+ getInorderSuccesorOf(enode, root, root, null, new
 		// StateVar()));
@@ -217,7 +244,7 @@ public class TreeUtil {
 
 	static int cnt = 0;
 
-	 public static int getH() {
+	public static int getH() {
 		return h;
 	}
 
@@ -255,17 +282,28 @@ public class TreeUtil {
 				"S", "T", "U", "V", "W", "X", "Y", "Z" };
 		ArrayList<Node> nextList = new ArrayList<Node>();
 		int len = list.size();
+		int qt = 0;
 		Node aux = null, next = null;
 		// cnt = (cnt + 1) % 26;
 		for (int i = 0; i < len; i++) {
 			aux = list.get(i);
 			next = new Node();
-			next.setData(labels[cnt]);
+			qt = cnt / 26;
+			if (qt > 0) {
+				next.setData(labels[cnt] + "_" + qt);
+			} else {
+				next.setData(labels[cnt]);
+			}
 			aux.setLeft(next);
 			nextList.add(next);
 			next = new Node();
+			qt = (cnt + 1) / 26;
 			cnt = (cnt + 1) % 26;
-			next.setData(labels[cnt]);
+			if (qt > 0) {
+				next.setData(labels[cnt] + "_" + qt);
+			} else {
+				next.setData(labels[cnt]);
+			}
 			aux.setRight(next);
 			nextList.add(next);
 			cnt = (cnt + 1) % 26;
@@ -405,8 +443,6 @@ public class TreeUtil {
 
 	}
 
-	
-	
 	public static void getInorderSuccOf(Node currentNode, String node, StringBuilder match) {
 		if (currentNode == null) {
 			if (!(match.toString().length() > 0)) {
@@ -416,29 +452,29 @@ public class TreeUtil {
 		}
 		if ((currentNode.left == null && currentNode.right == null) || (currentNode.left == null)
 				|| (currentNode.right == null)) {
-			if (match.toString().contains("Y")) {
+			if (match.toString().contains("Yes")) {
 				match.delete(0, match.length());
 				match.append(currentNode.data);
 			}
 			if (currentNode.data.equals(node)) {
-				match.append("Y");
+				match.append("Yes");
 			}
 			return;
 		}
 		String aux = "";
-		if (currentNode.left != null&&!currentNode.left.equals("NULL")) {
+		if (currentNode.left != null && !currentNode.left.equals("NULL")) {
 			getInorderSuccOf(currentNode.left, node, match);
 		}
 
 		aux = currentNode.data;
-		if (match.toString().contains("Y")) {
+		if (match.toString().contains("Yes")) {
 			match.delete(0, match.length());
 			match.append(aux);
 		}
 		if (aux.equals(node)) {
-			match.append("Y");
+			match.append("Yes");
 		}
-		if (currentNode.right != null&&!currentNode.right.data.equals("NULL")) {
+		if (currentNode.right != null && !currentNode.right.data.equals("NULL")) {
 			getInorderSuccOf(currentNode.right, node, match);
 		}
 	}
@@ -451,13 +487,13 @@ public class TreeUtil {
 		}
 		String aux = "";
 		aux = currentNode.data;
-		if (match.toString().contains("Y")) {
+		if (match.toString().contains("Yes")) {
 			match.delete(0, match.length());
 			match.append(aux);
 		}
 
 		if (aux.equals(node)) {
-			match.append("Y");
+			match.append("Yes");
 		}
 		getPreorderSuccOf(currentNode.left, node, match);
 		getPreorderSuccOf(currentNode.right, node, match);
@@ -480,13 +516,13 @@ public class TreeUtil {
 
 		if ((currentNode.left == null && currentNode.right == null)) {
 			aux = currentNode.data;
-			if (match.toString().contains("Y")) {
+			if (match.toString().contains("Yes")) {
 				match.delete(0, match.length());
 				match.append(aux);
 			}
 
 			if (aux.equals(node)) {
-				match.append("Y");
+				match.append("Yes");
 			}
 			return;
 		}
@@ -495,13 +531,13 @@ public class TreeUtil {
 		getPostorderSuccOf(currentNode.right, node, match);
 		// the current node is matching or not
 		aux = currentNode.data;
-		if (match.toString().contains("Y")) {
+		if (match.toString().contains("Yes")) {
 			match.delete(0, match.length());
 			match.append(aux);
 		}
 
 		if (aux.equals(node)) {
-			match.append("Y");
+			match.append("Yes");
 		}
 
 	}
