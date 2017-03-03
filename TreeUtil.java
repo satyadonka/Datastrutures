@@ -83,9 +83,8 @@ public class TreeUtil {
 		String currentTOS = "";
 		Stack callSt = new Stack();
 		callSt.push(root);
-
 		Node aux = null, aux2 = null;
-		while (!callSt.isEmpty()) {
+ 		while (!callSt.isEmpty()) {
 			
 			aux = (Node) callSt.peek();
 			if (aux.getLeft() == null && aux.getRight() == null) {
@@ -94,15 +93,7 @@ public class TreeUtil {
 					result = aux.getData();
 					break;
 				}
-				currentTOS = aux.getData();
-				if(callSt.isEmpty()){
-					break;
-				}
-				aux = (Node) callSt.pop();
-				if (currentTOS.equals(ele)) {
-					result = aux.getData();
-					break;
-				}
+				 
 				currentTOS = aux.getData();
 
 				continue;
@@ -112,6 +103,7 @@ public class TreeUtil {
 				result = aux.getData();
 				break;
 			}
+			currentTOS = aux.getData();
 			callSt.push(aux);
 			if (aux.getRight() != null) {
 				callSt.push(aux.getRight());
@@ -140,15 +132,7 @@ public class TreeUtil {
 					result = aux.getData();
 					break;
 				}
-				currentTOS = aux.getData();
-				if(callSt.isEmpty()){
-					break;
-				}
-				aux = (Node) callSt.pop();
-				if (currentTOS.equals(ele)) {
-					result = aux.getData();
-					break;
-				}
+				
 				currentTOS = aux.getData();
 
 				continue;
