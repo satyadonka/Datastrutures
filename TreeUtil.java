@@ -4,9 +4,11 @@ import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.Stack;
 
+import trees.TreeUtil.Node;
+
 public class TreeUtil {
 
-	static int h = 3;
+	public static int h = 3;
 	static int padingLen = 100;
 	static Stack<String> callStk = new Stack<String>();
 	static Scanner sc = new Scanner(System.in);
@@ -34,6 +36,140 @@ public class TreeUtil {
 		System.out.println("\n\n\n");
 	}
 
+	public static String getInorderSuccOf(Node root, String ele) {
+		String result = "None";
+		String currentTOS = "";
+		Stack callSt = new Stack();
+		callSt.push(root);
+
+		Node aux = null, aux2 = null;
+		while (!callSt.isEmpty()) {
+			
+			aux = (Node) callSt.peek();
+			if (aux.getLeft() == null && aux.getRight() == null) {
+				aux = (Node) callSt.pop();
+				if (currentTOS.equals(ele)) {
+					result = aux.getData();
+					break;
+				}
+				currentTOS = aux.getData();
+				if(callSt.isEmpty()){
+					break;
+				}
+				aux = (Node) callSt.pop();
+				if (currentTOS.equals(ele)) {
+					result = aux.getData();
+					break;
+				}
+				currentTOS = aux.getData();
+
+				continue;
+			}
+			aux = (Node) callSt.pop();
+			if (aux.getRight() != null) {
+				callSt.push(aux.getRight());
+			}
+			callSt.push(aux);
+			if (aux.getLeft() != null) {
+				callSt.push(aux.getLeft());
+			}
+		}
+
+		return result;
+	}
+	
+	public static String getPostSuccOf(Node root, String ele) {
+		String result = "None";
+		String currentTOS = "";
+		Stack callSt = new Stack();
+		callSt.push(root);
+
+		Node aux = null, aux2 = null;
+		while (!callSt.isEmpty()) {
+			
+			aux = (Node) callSt.peek();
+			if (aux.getLeft() == null && aux.getRight() == null) {
+				aux = (Node) callSt.pop();
+				if (currentTOS.equals(ele)) {
+					result = aux.getData();
+					break;
+				}
+				currentTOS = aux.getData();
+				if(callSt.isEmpty()){
+					break;
+				}
+				aux = (Node) callSt.pop();
+				if (currentTOS.equals(ele)) {
+					result = aux.getData();
+					break;
+				}
+				currentTOS = aux.getData();
+
+				continue;
+			}
+			aux = (Node) callSt.pop();
+			if (currentTOS.equals(ele)) {
+				result = aux.getData();
+				break;
+			}
+			callSt.push(aux);
+			if (aux.getRight() != null) {
+				callSt.push(aux.getRight());
+			}
+			if (aux.getLeft() != null) {
+				callSt.push(aux.getLeft());
+			}
+		}
+
+		return result;
+	}
+	
+	public static String getPreSuccOf(Node root, String ele) {
+		String result = "None";
+		String currentTOS = "";
+		Stack callSt = new Stack();
+		callSt.push(root);
+
+		Node aux = null, aux2 = null;
+		while (!callSt.isEmpty()) {
+			
+			aux = (Node) callSt.peek();
+			if (aux.getLeft() == null && aux.getRight() == null) {
+				aux = (Node) callSt.pop();
+				if (currentTOS.equals(ele)) {
+					result = aux.getData();
+					break;
+				}
+				currentTOS = aux.getData();
+				if(callSt.isEmpty()){
+					break;
+				}
+				aux = (Node) callSt.pop();
+				if (currentTOS.equals(ele)) {
+					result = aux.getData();
+					break;
+				}
+				currentTOS = aux.getData();
+
+				continue;
+			}
+			aux = (Node) callSt.pop();
+			if (aux.getRight() != null) {
+				callSt.push(aux.getRight());
+			}
+			if (aux.getLeft() != null) {
+				callSt.push(aux.getLeft());
+			}
+			if (currentTOS.equals(ele)) {
+				result = aux.getData();
+				break;
+			}
+			currentTOS = aux.getData();
+		}
+
+		return result;
+	}
+	
 	public static void main(String[] args) {
 		Scanner sc = new Scanner(System.in);
 		System.out.print("Enter the Height of the Tree:");
@@ -61,6 +197,9 @@ public class TreeUtil {
 			System.out.println("Inorder succssor of " + nq + " is:=" + match.toString());
 		}
 
+		System.out.println("STACK-->"+getInorderSuccOf(root, nq));
+		
+		
 		System.out.print("Enter the Node to Know PreOreder Successor:");
 		nq = sc.next();
 		enode.setData(nq);
@@ -72,7 +211,8 @@ public class TreeUtil {
 			// getInorderSuccOf
 			System.out.println("PreOrder succssor of " + nq + " is:=" + match.toString());
 		}
-
+		System.out.println("STACK-->"+getPreSuccOf(root, nq));
+		
 		System.out.print("Enter the Node to Know PostOPrder Successor:");
 		nq = sc.next();
 		enode.setData(nq);
@@ -85,12 +225,29 @@ public class TreeUtil {
 			System.out.println("PostOPrder succssor of " + nq + " is:=" + match.toString());
 		}
 
+		System.out.println("STACK-->"+getPostSuccOf(root, nq));
 		// System.out.println("Inorder succssor of " + enode.getData() + "
 		// is:="+ getInorderSuccesorOf(enode, root, root, null, new
 		// StateVar()));
 	}
 
 	static int cnt = 0;
+
+	 public static int getH() {
+		return h;
+	}
+
+	public static void setH(int h) {
+		TreeUtil.h = h;
+	}
+
+	public static Node getRoot() {
+		return root;
+	}
+
+	public static void setRoot(Node root) {
+		TreeUtil.root = root;
+	}
 
 	static Node root = new Node();
 
@@ -264,6 +421,8 @@ public class TreeUtil {
 
 	}
 
+	
+	
 	public static void getInorderSuccOf(Node currentNode, String node, StringBuilder match) {
 		if (currentNode == null) {
 			if (!(match.toString().length() > 0)) {
@@ -283,7 +442,9 @@ public class TreeUtil {
 			return;
 		}
 		String aux = "";
-		getInorderSuccOf(currentNode.left, node, match);
+		if (currentNode.left != null&&!currentNode.left.equals("NULL")) {
+			getInorderSuccOf(currentNode.left, node, match);
+		}
 
 		aux = currentNode.data;
 		if (match.toString().contains("Y")) {
@@ -293,8 +454,9 @@ public class TreeUtil {
 		if (aux.equals(node)) {
 			match.append("Y");
 		}
-
-		getInorderSuccOf(currentNode.right, node, match);
+		if (currentNode.right != null&&!currentNode.right.data.equals("NULL")) {
+			getInorderSuccOf(currentNode.right, node, match);
+		}
 	}
 
 	public static void getPreorderSuccOf(Node currentNode, String node, StringBuilder match) {
