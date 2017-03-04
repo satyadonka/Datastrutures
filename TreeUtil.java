@@ -1,4 +1,3 @@
-
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.Stack;
@@ -13,9 +12,13 @@ public class TreeUtil {
 	public static void printNodesAt(int level, ArrayList<Node> list) {
 		String padding = " ";
 		String auxStr = "";
+		String auxStr_r = "";
 		int len = (int) (padingLen / Math.pow(2, level));
-		for (int i = 0; i < len; i++) {
+		for (int i = 0; i < len; i++) { 
 			auxStr += padding;
+		}
+		for (int i = 0; i < len-2; i++) { 
+			auxStr_r += padding;
 		}
 		len = (int) Math.pow(2, level);
 		Node aux = null;
@@ -26,11 +29,11 @@ public class TreeUtil {
 			} else if (aux.getData().equals("NULL")) {
 				System.out.print(auxStr + auxStr);
 			} else {
-				System.out.print(auxStr + aux.getData() + auxStr);
+				System.out.print(auxStr + aux.getData() + auxStr_r);
 			}
 		}
 
-		System.out.println("\n\n\n");
+		System.out.println("\n\n");
 	}
 
 	public static String getInorderSuccOf(Node root, String ele) {
@@ -186,6 +189,8 @@ public class TreeUtil {
 		Scanner sc = new Scanner(System.in);
 		System.out.print("Enter the Height of the Tree:");
 		h = sc.nextInt();
+		padingLen=(int) Math.pow(2, h);
+		padingLen=padingLen*h;
 		ArrayList<Node> list = new ArrayList<Node>();
 		// constructTree(0, list);
 		constructTreeByOption(0, list);
@@ -335,13 +340,19 @@ public class TreeUtil {
 
 		int len = list.size();
 		Node aux = null, next = null;
+		int qt=0;
 		for (int i = 0; i < len; i++) {
 			aux = list.get(i);
 			System.out.print("Wanted to create Left Node(Y/N):");
 			options = sc.nextLine();
 			if (options.equalsIgnoreCase("Y")) {
 				next = new Node();
-				next.setData(labels[cnt]);
+				if(qt>0){
+					next.setData(labels[cnt]+"_"+qt);
+				}else{
+					next.setData(labels[cnt]);	
+				}
+				
 				aux.setLeft(next);
 				System.out.println("Adding Left Node to the Parent:" + aux.data);
 				nextList.add(next);
@@ -355,19 +366,28 @@ public class TreeUtil {
 			options = sc.nextLine();
 			if (options.equalsIgnoreCase("Y")) {
 				next = new Node();
+				qt+=(cnt+1)/26;
 				cnt = (cnt + 1) % 26;
-				next.setData(labels[cnt]);
+				if(qt>0){
+					next.setData(labels[cnt]+"_"+qt);
+				}else{
+					next.setData(labels[cnt]);	
+				}
+				
 				aux.setRight(next);
 				System.out.println("Adding Right Node to the Parent:" + aux.data);
 				nextList.add(next);
 			} else {
 				next = new Node();
+				qt+=(cnt+1)/26;
 				cnt = (cnt + 1) % 26;
 				next.setData("NULL");
 				aux.setRight(next);
 				// nextList.add(next);
 			}
+			qt+=(cnt+1)/26;
 			cnt = (cnt + 1) % 26;
+			
 		}
 		constructTreeByOption(level + 1, nextList);
 	}
