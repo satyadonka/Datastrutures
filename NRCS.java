@@ -11,7 +11,7 @@ public class NRCS {
 		boolean isComplete = true;
 		for (j = len - 1; j >= 0; j--) {
 			ascii = (int) data.charAt(j);
-			if (table[ascii] != 0 && table[ascii] <= prevLimit) {
+			if (table[ascii] != 0 && table[ascii] < prevLimit) {
 				isComplete = false;
 				aux = data.substring(j + 1);
 				if (aux.length() > result.length()) {
