@@ -1,11 +1,16 @@
 package dataStructures;
 
+import java.util.Scanner;
+
 public class LinkedNodes {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
+		Scanner sc=new Scanner(System.in);
+		System.out.println("Enter the list size:");
+		int size=sc.nextInt();
 		LinkedNodes ln = new LinkedNodes();
-		Node ptr = ln.getLinkedListof(2);
+		Node ptr = ln.getLinkedListof(size);
 		ln.printList(ptr);
 		Node sptr = ln.swapElements(ptr);
 		ln.printList(sptr);
@@ -47,6 +52,9 @@ public class LinkedNodes {
 		 */
 		Node n1 = start.next;
 		Node n2 = n1.next;
+		/**
+		 * since left side we are using DOT operator it changes the list
+		 */
 		start.next = n2;
 		start.next.next = n1;
 		start.next.next.next = aux;
