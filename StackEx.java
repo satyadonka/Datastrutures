@@ -64,6 +64,11 @@ public class StackEx {
 				if(!"NULL".equals(aux.data)){
 					System.out.print(aux.data);
 				}
+/**
+ * TOS may be right child of the root of the previous popped one,if that is true then remove(process) root too
+ * otherwise the current popped one is the left child of another root
+ * why this while loop,if the tree is right skew tree then it is needed
+ */
 				while (!callSt.isEmpty() && (((TreeUtil.Node) callSt.peek()).right != null)
 						&& ((TreeUtil.Node) callSt.peek()).right.data.equals(aux.data)) {
 					aux = (TreeUtil.Node) callSt.pop();
