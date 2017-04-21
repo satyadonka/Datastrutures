@@ -12,7 +12,8 @@ public class LinkedNodes {
 		LinkedNodes ln = new LinkedNodes();
 		Node ptr = ln.getLinkedListof(size);
 		ln.printList(ptr);
-		Node sptr = ln.swapElements(ptr);
+		//Node sptr = ln.swapElements(ptr);
+		Node sptr =ln.swapElements2(ptr);
 		ln.printList(sptr);
 	}
 
@@ -24,7 +25,37 @@ public class LinkedNodes {
 		}
 		System.out.println();
 	}
-
+/**
+ * without any extra nodes effecient way
+ * @param ptr
+ * @return
+ */
+	public Node swapElements2(Node ptr){
+		Node start=ptr;
+		Node result=start;
+		Node next=null,n1=null,n2=null,prev=null;
+		if(start.next==null){
+			return start;
+		}
+		 result=start.next;
+		while(start!=null&&start.next!=null){
+			next=start.next.next;
+			n1=start;
+			n2=start.next;
+			start=n2;
+			start.next=n1;
+			start.next.next=next;
+			start=next;
+			if(prev!=null){
+				prev.next=n2;
+			}
+			prev=n1;
+		}
+		return result;
+	}
+	
+	
+	
 	public Node swapElements(Node ptr) {
 		/**
 		 * Call by Values reference... Thumb rule as long as we are not using
