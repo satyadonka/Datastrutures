@@ -1,3 +1,4 @@
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.Stack;
@@ -270,7 +271,13 @@ public class StackEx {
 	public static void testCase1() {
 
 		// TODO Auto-generated method stub
-		TreeUtil tu = new TreeUtil();
+		TreeUtil tu=null;
+		try {
+			tu = new TreeUtil();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		StackEx se = new StackEx();
 		System.out.print("The post order:");
 		se.printinPostorder(tu.root);
@@ -286,7 +293,13 @@ public class StackEx {
 	}
 
 	public static void testCase2() {
-		TreeUtil tu = new TreeUtil();
+		TreeUtil tu=null;
+		try {
+			tu = new TreeUtil();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		StackEx se = new StackEx();
 		Scanner sc = new Scanner(System.in);
 		String n1 = "", n2 = "";
