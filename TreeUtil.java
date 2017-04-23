@@ -1,7 +1,9 @@
 package trees;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.Scanner;
 import java.util.Stack;
 
 public class TreeUtil {
@@ -9,8 +11,8 @@ public class TreeUtil {
 	public static int h = 3;
 	static int padingLen = 100;
 	static Stack<String> callStk = new Stack<String>();
-	static Scanner sc = new Scanner(System.in);
-
+	static String options[]=null;
+	static BufferedReader br=new BufferedReader(new InputStreamReader(System.in));;
 	public static void printNodesAt(int level, ArrayList<Node> list) {
 		String padding = " ";
 		String auxStr = "";
@@ -187,31 +189,50 @@ public class TreeUtil {
 		return result;
 	}
 
-	public TreeUtil() {
+	public TreeUtil() throws IOException {
 		// TODO Auto-generated constructor stub
-		Scanner sc = new Scanner(System.in);
 		System.out.print("Enter the Height of the Tree:");
-		h = sc.nextInt();
+		h = Integer.parseInt(br.readLine());
 		padingLen = (int) Math.pow(2, h);
 		padingLen = padingLen * h;
 		ArrayList<Node> list = new ArrayList<Node>();
 		// constructTree(0, list);
-		constructTreeByOption(0, list);
+		System.out.print("Interactive :");
+		String option=br.readLine();
+		if(option.equalsIgnoreCase("N")){
+			System.out.print("Enter options:");
+			options=br.readLine().split(" ");
+			constructTreeByNonIntrative(0, list);
+		}else{
+			constructTreeByIntrative(0, list);
+		}
+		
 		list = new ArrayList<Node>();
 		list.add(root);
 		printTree(0, list);
 		System.out.println("\n");
 	}
 
-	public static void main(String[] args) {
-		Scanner sc = new Scanner(System.in);
+	public static void main(String[] args) throws IOException {
+		
+		
+		
 		System.out.print("Enter the Height of the Tree:");
-		h = sc.nextInt();
+		h = Integer.parseInt(br.readLine());
+		System.out.print("Interactive :");
+		String option=br.readLine();
+	 
 		padingLen = (int) Math.pow(2, h);
 		padingLen = padingLen * h;
 		ArrayList<Node> list = new ArrayList<Node>();
 		// constructTree(0, list);
-		constructTreeByOption(0, list);
+		if(option.equalsIgnoreCase("N")){
+			System.out.print("Enter options:");
+			options=br.readLine().split(" ");
+			constructTreeByNonIntrative(0, list);
+		}else{
+			constructTreeByIntrative(0, list);
+		}
 		list = new ArrayList<Node>();
 		list.add(root);
 		printTree(0, list);
@@ -221,7 +242,7 @@ public class TreeUtil {
 		System.out.println("In PostOrder:=" + printInPostorder(root));
 		Node enode = new Node();
 		System.out.print("Enter the Node to Know Inorder Successor:");
-		String nq = sc.next();
+		String nq =br.readLine();
 		enode.setData(nq);
 		StringBuilder match = new StringBuilder();
 		getInorderSuccOf(root, nq, match);
@@ -235,7 +256,7 @@ public class TreeUtil {
 		System.out.println("STACK-->" + getInorderSuccOf(root, nq));
 
 		System.out.print("Enter the Node to Know PreOreder Successor:");
-		nq = sc.next();
+		nq =br.readLine();
 		enode.setData(nq);
 		match = new StringBuilder();
 		getPreorderSuccOf(root, nq, match);
@@ -248,7 +269,7 @@ public class TreeUtil {
 		System.out.println("STACK-->" + getPreSuccOf(root, nq));
 
 		System.out.print("Enter the Node to Know PostOPrder Successor:");
-		nq = sc.next();
+		nq = br.readLine();
 		enode.setData(nq);
 		match = new StringBuilder();
 		getPostorderSuccOf(root, nq, match);
@@ -333,7 +354,7 @@ public class TreeUtil {
 		}
 		constructTree(level + 1, nextList);
 	}
-
+static int index=0;
 	/**
 	 * For each Node assign the right and left of the tree Node do this level by
 	 * level keep track latest level node list
@@ -341,13 +362,94 @@ public class TreeUtil {
 	 * @param level
 	 * @param list
 	 */
-	public static void constructTreeByOption(int level, ArrayList<Node> list) {
+	public static void constructTreeByNonIntrative(int level, ArrayList<Node> list) {
+		ArrayList<Node> nextList = new ArrayList<Node>();
+		String option = "";
+		if (level == 0) {
+			root.setData("ooo");
+			list.add(root);
+			constructTreeByNonIntrative(level + 1, list);
+			return;
+		}
+		if (level == h) {
+			return;
+		}
+		String labels[] = { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R",
+				"S", "T", "U", "V", "W", "X", "Y", "Z" };
+
+		int len = list.size();
+		Node aux = null, next = null;
+		int qt = 0;
+		for (int i = 0; i < len; i++) {
+			aux = list.get(i);
+			option = options[index++];
+			System.out.print("Wanted to create Left Node of \"" + aux.data + "\"(Y/N):"+option);
+			if (option.equalsIgnoreCase("Y")) {
+				next = new Node();
+				if (qt > 0) {
+					next.setData(labels[cnt] + "_" + qt);
+				} else {
+					next.setData(labels[cnt]);
+				}
+
+				aux.setLeft(next);
+				System.out.println("Added Left Node to the Parent:" + aux.data);
+				nextList.add(next);
+			} else {
+			//	next = new Node();
+				// next.setData("NULL");
+				// aux.setLeft(next);
+				// nextList.add(next);
+			}
+			option = options[index++];
+			System.out.print("Wanted to create Right Node of  \"" + aux.data + "\"(Y/N):"+option);
+			if (option.equalsIgnoreCase("Y")) {
+				next = new Node();
+				qt += (cnt + 1) / 26;
+				cnt = (cnt + 1) % 26;
+				if (qt > 0) {
+					next.setData(labels[cnt] + "_" + qt);
+				} else {
+					next.setData(labels[cnt]);
+				}
+
+				aux.setRight(next);
+				System.out.println("Added Right Node to the Parent:" + aux.data);
+				nextList.add(next);
+			} else {
+			//	next = new Node();
+				//qt += (cnt + 1) / 26;
+				//	cnt = (cnt + 1) % 26;
+				// next.setData("NULL");
+				// aux.setRight(next);
+				// nextList.add(next);
+			}
+			qt += (cnt + 1) / 26;
+			cnt = (cnt + 1) % 26;
+
+		}
+		constructTreeByNonIntrative(level + 1, nextList);
+	}
+
+	
+	
+	
+	
+	/**
+	 * For each Node assign the right and left of the tree Node do this level by
+	 * level keep track latest level node list
+	 *
+	 * @param level
+	 * @param list
+	 * @throws IOException 
+	 */
+	public static void constructTreeByIntrative(int level, ArrayList<Node> list) throws IOException {
 		ArrayList<Node> nextList = new ArrayList<Node>();
 		String options = "";
 		if (level == 0) {
 			root.setData("ooo");
 			list.add(root);
-			constructTreeByOption(level + 1, list);
+			constructTreeByIntrative(level + 1, list);
 			return;
 		}
 		if (level == h) {
@@ -362,7 +464,7 @@ public class TreeUtil {
 		for (int i = 0; i < len; i++) {
 			aux = list.get(i);
 			System.out.print("Wanted to create Left Node of \"" + aux.data + "\"(Y/N):");
-			options = sc.nextLine();
+			options = br.readLine();
 			if (options.equalsIgnoreCase("Y")) {
 				next = new Node();
 				if (qt > 0) {
@@ -375,13 +477,13 @@ public class TreeUtil {
 				System.out.println("Added Left Node to the Parent:" + aux.data);
 				nextList.add(next);
 			} else {
-				next = new Node();
+			//	next = new Node();
 				// next.setData("NULL");
 				// aux.setLeft(next);
 				// nextList.add(next);
 			}
 			System.out.print("Wanted to create Right Node of  \"" + aux.data + "\"(Y/N):");
-			options = sc.nextLine();
+			options = br.readLine();
 			if (options.equalsIgnoreCase("Y")) {
 				next = new Node();
 				qt += (cnt + 1) / 26;
@@ -396,9 +498,9 @@ public class TreeUtil {
 				System.out.println("Added Right Node to the Parent:" + aux.data);
 				nextList.add(next);
 			} else {
-				next = new Node();
-				qt += (cnt + 1) / 26;
-				cnt = (cnt + 1) % 26;
+				//next = new Node();
+			//	qt += (cnt + 1) / 26;
+				//cnt = (cnt + 1) % 26;
 				// next.setData("NULL");
 				// aux.setRight(next);
 				// nextList.add(next);
@@ -407,7 +509,7 @@ public class TreeUtil {
 			cnt = (cnt + 1) % 26;
 
 		}
-		constructTreeByOption(level + 1, nextList);
+		constructTreeByIntrative(level + 1, nextList);
 	}
 
 	public static void printTree(int level, ArrayList<Node> list) {
