@@ -1,3 +1,5 @@
+package trees;
+
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.Stack;
@@ -14,13 +16,13 @@ public class TreeUtil {
 		String auxStr = "";
 		String auxStr_r = "";
 		int len = (int) (padingLen / Math.pow(2, level));
-		for (int i = 0; i < len; i++) { 
+		for (int i = 0; i < len; i++) {
 			auxStr += padding;
 		}
-		for (int i = 0; i < len-2; i++) { 
+		for (int i = 0; i < len - 2; i++) {
 			auxStr_r += padding;
 		}
-		len = (int) Math.pow(2, level);
+		len = list.size();//(int) Math.pow(2, level);
 		Node aux = null;
 		for (int i = 1; i <= len; i++) {
 			aux = list.get(i - 1);
@@ -115,7 +117,7 @@ public class TreeUtil {
 						break;
 					}
 					currentTOS = aux.getData();
-					if(((Node)callSt.peek()).right.data.equals(currentTOS)){
+					if (((Node) callSt.peek()).right.data.equals(currentTOS)) {
 						aux = (Node) callSt.pop();
 						currentTOS = aux.getData();
 					}
@@ -128,11 +130,11 @@ public class TreeUtil {
 				if (aux.getLeft() != null) {
 					callSt.push(aux.getLeft());
 				}
-				 
+
 				continue;
 			}
 			aux = (Node) callSt.pop();
-			if(aux.right.data.equals(currentTOS)){
+			if (aux.right.data.equals(currentTOS)) {
 				continue;
 			}
 			callSt.push(aux);
@@ -185,12 +187,28 @@ public class TreeUtil {
 		return result;
 	}
 
+	public TreeUtil() {
+		// TODO Auto-generated constructor stub
+		Scanner sc = new Scanner(System.in);
+		System.out.print("Enter the Height of the Tree:");
+		h = sc.nextInt();
+		padingLen = (int) Math.pow(2, h);
+		padingLen = padingLen * h;
+		ArrayList<Node> list = new ArrayList<Node>();
+		// constructTree(0, list);
+		constructTreeByOption(0, list);
+		list = new ArrayList<Node>();
+		list.add(root);
+		printTree(0, list);
+		System.out.println("\n");
+	}
+
 	public static void main(String[] args) {
 		Scanner sc = new Scanner(System.in);
 		System.out.print("Enter the Height of the Tree:");
 		h = sc.nextInt();
-		padingLen=(int) Math.pow(2, h);
-		padingLen=padingLen*h;
+		padingLen = (int) Math.pow(2, h);
+		padingLen = padingLen * h;
 		ArrayList<Node> list = new ArrayList<Node>();
 		// constructTree(0, list);
 		constructTreeByOption(0, list);
@@ -265,7 +283,7 @@ public class TreeUtil {
 		TreeUtil.root = root;
 	}
 
-	static Node root = new Node();
+	public static Node root = new Node();
 
 	/**
 	 * For each Node assign the right and left of the tree Node do this level by
@@ -340,54 +358,54 @@ public class TreeUtil {
 
 		int len = list.size();
 		Node aux = null, next = null;
-		int qt=0;
+		int qt = 0;
 		for (int i = 0; i < len; i++) {
 			aux = list.get(i);
-			System.out.print("Wanted to create Left Node(Y/N):");
+			System.out.print("Wanted to create Left Node of \"" + aux.data + "\"(Y/N):");
 			options = sc.nextLine();
 			if (options.equalsIgnoreCase("Y")) {
 				next = new Node();
-				if(qt>0){
-					next.setData(labels[cnt]+"_"+qt);
-				}else{
-					next.setData(labels[cnt]);	
+				if (qt > 0) {
+					next.setData(labels[cnt] + "_" + qt);
+				} else {
+					next.setData(labels[cnt]);
 				}
-				
+
 				aux.setLeft(next);
-				System.out.println("Adding Left Node to the Parent:" + aux.data);
+				System.out.println("Added Left Node to the Parent:" + aux.data);
 				nextList.add(next);
 			} else {
 				next = new Node();
-				next.setData("NULL");
-				aux.setLeft(next);
+				// next.setData("NULL");
+				// aux.setLeft(next);
 				// nextList.add(next);
 			}
-			System.out.print("Wanted to create Right Node(Y/N):");
+			System.out.print("Wanted to create Right Node of  \"" + aux.data + "\"(Y/N):");
 			options = sc.nextLine();
 			if (options.equalsIgnoreCase("Y")) {
 				next = new Node();
-				qt+=(cnt+1)/26;
+				qt += (cnt + 1) / 26;
 				cnt = (cnt + 1) % 26;
-				if(qt>0){
-					next.setData(labels[cnt]+"_"+qt);
-				}else{
-					next.setData(labels[cnt]);	
+				if (qt > 0) {
+					next.setData(labels[cnt] + "_" + qt);
+				} else {
+					next.setData(labels[cnt]);
 				}
-				
+
 				aux.setRight(next);
-				System.out.println("Adding Right Node to the Parent:" + aux.data);
+				System.out.println("Added Right Node to the Parent:" + aux.data);
 				nextList.add(next);
 			} else {
 				next = new Node();
-				qt+=(cnt+1)/26;
+				qt += (cnt + 1) / 26;
 				cnt = (cnt + 1) % 26;
-				next.setData("NULL");
-				aux.setRight(next);
+				// next.setData("NULL");
+				// aux.setRight(next);
 				// nextList.add(next);
 			}
-			qt+=(cnt+1)/26;
+			qt += (cnt + 1) / 26;
 			cnt = (cnt + 1) % 26;
-			
+
 		}
 		constructTreeByOption(level + 1, nextList);
 	}
@@ -400,13 +418,23 @@ public class TreeUtil {
 		ArrayList<Node> nextList = new ArrayList<Node>();
 		int len = list.size();
 		Node aux = null;
+		Node dummy=new Node();
+		dummy.data="NULL";
 		for (int i = 0; i < len; i++) {
 			aux = list.get(i);
 			if (aux == null) {
 				continue;
 			}
-			nextList.add(aux.getLeft());
-			nextList.add(aux.getRight());
+			if (aux.getLeft() != null) {
+				nextList.add(aux.getLeft());
+			}else{
+				nextList.add(dummy);
+			}
+			if (aux.getRight() != null) {
+				nextList.add(aux.getRight());
+			}else{
+				nextList.add(dummy);
+			}
 		}
 		printTree(level + 1, nextList);
 	}
@@ -591,8 +619,9 @@ public class TreeUtil {
 			this.right = right;
 		}
 
-		String data = "";
-		Node left = null, right = null;
+		public String data = "";
+		public Node left = null;
+		public Node right = null;
 
 		public String toString() {
 			return data;
