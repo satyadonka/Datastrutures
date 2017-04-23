@@ -1,119 +1,138 @@
+package recu;
 
-public class RecurrEx {
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Scanner;
+import java.util.Stack;
+
+import trees.TreeUtil;
+import trees.TreeUtil.Node;
+
+public class RecurrsionEx {
+
+	RecurrsionEx() {
+		Scanner sc = new Scanner(System.in);
+		System.out.print("Enter the Height of the Tree:");
+		TreeUtil.h = sc.nextInt();
+		ArrayList<Node> list = new ArrayList<Node>();
+		try {
+			TreeUtil.constructTreeByIntrative(0, list);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		list.add(TreeUtil.getRoot());
+		TreeUtil.printTree(0, list);
+	}
+
 	
-	public String printInorder(TreeUtil.Node root){
-		if (root == null) {
-			return "";
+	public String getInorderSuccOf(Node root, String ele) {
+		String result = "None";
+		String currentTOS = "";
+		Stack callSt = new Stack();
+		callSt.push(root);
+
+		Node aux = null, aux2 = null;
+		while (!callSt.isEmpty()) {
+			
+			aux = (Node) callSt.peek();
+			if (aux.getLeft() == null && aux.getRight() == null) {
+				aux = (Node) callSt.pop();
+				if (currentTOS.equals(ele)) {
+					result = aux.getData();
+					break;
+				}
+				currentTOS = aux.getData();
+				if(callSt.isEmpty()){
+					break;
+				}
+				aux = (Node) callSt.pop();
+				if (currentTOS.equals(ele)) {
+					result = aux.getData();
+					break;
+				}
+				currentTOS = aux.getData();
+
+				continue;
+			}
+			aux = (Node) callSt.pop();
+			if (aux.getRight() != null) {
+				callSt.push(aux.getRight());
+			}
+			callSt.push(aux);
+			if (aux.getLeft() != null) {
+				callSt.push(aux.getLeft());
+			}
 		}
-		return printInorder(root.left)+root.data+printInorder(root.right);
+
+		return result;
 	}
 	
-	public String printPostorder(TreeUtil.Node root){
-		if (root == null) {
-			return "";
-		}
-		return printPostorder(root.left)+printInorder(root.right)+root.data;
-	}
-	
-	public void getInorerSucc(TreeUtil.Node root, String eleR, StringBuilder status) {
-		if (root == null) {
-			return;
-		}
-		if (root.left == null && root.right == null) {
-			if (status.toString().contains("Y")) {
-				status.delete(0, status.capacity());
-				status.append(root.data);
-			}
-			if (root.data.equals(eleR)) {
-				status.append("Y");
-			}
-			return;
-		}
-		getInorerSucc(root.left, eleR, status);
+	public String getPostSuccOf(Node root, String ele) {
+		String result = "None";
+		String currentTOS = "";
+		Stack callSt = new Stack();
+		callSt.push(root);
 
-		if (status.toString().contains("Y")) {
-			status.delete(0, status.capacity());
-			status.append(root.data);
-			return;
-		}
-		if (root.data.equals(eleR)) {
-			status.append("Y");
-		}
+		Node aux = null, aux2 = null;
+		while (!callSt.isEmpty()) {
+			
+			aux = (Node) callSt.peek();
+			if (aux.getLeft() == null && aux.getRight() == null) {
+				aux = (Node) callSt.pop();
+				if (currentTOS.equals(ele)) {
+					result = aux.getData();
+					break;
+				}
+				currentTOS = aux.getData();
+				if(callSt.isEmpty()){
+					break;
+				}
+				aux = (Node) callSt.pop();
+				if (currentTOS.equals(ele)) {
+					result = aux.getData();
+					break;
+				}
+				currentTOS = aux.getData();
 
-		getInorerSucc(root.right, eleR, status);
-	}
-
-	public void getPreorerSucc(TreeUtil.Node root, String eleR, StringBuilder status) {
-		if (root == null) {
-			return;
-		}
-		if (root.left == null && root.right == null) {
-			if (status.toString().contains("Y")) {
-				status.delete(0, status.capacity());
-				status.append(root.data);
+				continue;
 			}
-			if (root.data.equals(eleR) && status.toString().length() == 0) {
-				status.append("Y");
+			aux = (Node) callSt.pop();
+			callSt.push(aux);
+			if (aux.getRight() != null) {
+				callSt.push(aux.getRight());
 			}
-			return;
+			if (aux.getLeft() != null) {
+				callSt.push(aux.getLeft());
+			}
 		}
 
-		if (status.toString().contains("Y")) {
-			status.delete(0, status.capacity());
-			status.append(root.data);
-			return;
-		}
-		if (root.data.equals(eleR) && status.toString().length() == 0) {
-			status.append("Y");
-		}
-		if (root.left != null) {
-			getPreorerSucc(root.left, eleR, status);
-		}
-		if (root.right != null) {
-			getPreorerSucc(root.right, eleR, status);
-		}
+		return result;
 	}
 
-	public void getPostorerSucc(TreeUtil.Node root, String eleR, StringBuilder status) {
-		if (root == null) {
-			return;
+	public String testInorderSuccessor(Node root, String ele) {
+		String result = "", leftT = "";
+		if (root.getLeft() == null && root.getRight() == null) {
+			System.out.println(root.getData());
+			return root.getData();
 		}
-		if (root.left == null && root.right == null) {
-			if (status.toString().contains("Y")) {
-				status.delete(0, status.capacity());
-				status.append(root.data);
-			}
-			if (root.data.equals(eleR) && status.toString().length() == 0) {
-				status.append("Y");
-			}
-			return;
-		}
-		if (root.left != null) {
-			getPostorerSucc(root.left, eleR, status);
-		}
-		if (root.right != null) {
-			getPostorerSucc(root.right, eleR, status);
-		}
-
-		if (status.toString().contains("Y")) {
-			status.delete(0, status.capacity());
-			status.append(root.data);
-			return;
-		}
-		if (root.data.equals(eleR) && status.toString().length() == 0) {
-			status.append("Y");
-		}
+		testInorderSuccessor(root.getLeft(), ele);
+		System.out.println(root.getData());
+		return root.getData();
 	}
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		TreeUtil tu = new TreeUtil();
-		RecurrEx re = new RecurrEx();
-		StringBuilder sb = new StringBuilder();
-		re.getPostorerSucc(tu.root, "D", sb);
-		System.out.println("Postorder Succssor of D:=" + sb.toString());
-		
-		System.out.println("PostOrder::"+re.printPostorder(tu.root));
+		RecurrsionEx re = new RecurrsionEx();
+		// System.out.println(re.getInorderSuccessor(TreeUtil.getRoot(), "A"));
+		System.out.println(
+				"===================ENTER ELE=================================================================================");
+		Scanner sc = new Scanner(System.in);
+		String ele = sc.nextLine();
+		while (ele.length() <= 4) {
+			System.out.println(ele + " Inorder Successor:" + re.getPostSuccOf(TreeUtil.getRoot(), ele));
+			ele = sc.nextLine();
+		}
 	}
 
 }
