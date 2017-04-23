@@ -223,11 +223,23 @@ public class StackEx {
 			if (aux.left == null && aux.right == null) {
 				if (!"NULL".equals(aux.data)) {
 					System.out.print(aux.data);
+					if(!callSt.isEmpty()){
+						aux = (TreeUtil.Node) callSt.pop();
+						if(!"NULL".equals(aux.data)){
+							System.out.print(aux.data);
+						}
+					}
 				}
 				while (!callSt.isEmpty()&&((TreeUtil.Node) callSt.peek()).right==null) {
 					aux = (TreeUtil.Node) callSt.pop();
 					if (!"NULL".equals(aux.data)) {
 						System.out.print(aux.data);
+						if(!callSt.isEmpty()){
+							aux = (TreeUtil.Node) callSt.pop();
+							if(!"NULL".equals(aux.data)){
+								System.out.print(aux.data);
+							}
+						}
 					}
 				}
 				continue;
