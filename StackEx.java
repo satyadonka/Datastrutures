@@ -68,44 +68,16 @@ public class StackEx {
 			 */
 			aux = (TreeUtil.Node) callSt.pop();
 			if (aux.right == null && aux.left == null) {
-				if (!"NULL".equals(aux.data)) {
+				System.out.print(aux.data);
+				while (!callSt.isEmpty()
+						&&( ((((TreeUtil.Node) callSt.peek()).right != null)
+								&& ((TreeUtil.Node) callSt.peek()).right.data.equals(aux.data))
+						|| ((((TreeUtil.Node) callSt.peek()).left != null)
+								&& ((TreeUtil.Node) callSt.peek()).left.data.equals(aux.data)))) {
+					aux = (TreeUtil.Node) callSt.pop();
 					System.out.print(aux.data);
+
 				}
-				/**
-				 * TOS may be right child of the root of the previous popped
-				 * one,if that is true then remove(process) root too otherwise
-				 * the current popped one is the left child of another root why
-				 * this while loop,if the tree is right skew tree then it is
-				 * needed
-				 * 
-				 * IF reading RIGHT then TOS is root,if the root.right and
-				 * popped element are same ONLY then root will print This
-				 * condition is not for the left node
-				 */
-				while (!callSt.isEmpty() && (((TreeUtil.Node) callSt.peek()).right != null)
-						&& ((TreeUtil.Node) callSt.peek()).right.data.equals(aux.data)) {
-					aux = (TreeUtil.Node) callSt.pop();
-					if (!"NULL".equals(aux.data)) {
-						System.out.print(aux.data);
-					}
-				}
-				
-				while (!callSt.isEmpty() && (((TreeUtil.Node) callSt.peek()).right== null)	) {
-					aux = (TreeUtil.Node) callSt.pop();
-					if (!"NULL".equals(aux.data)) {
-						System.out.print(aux.data);
-					}
-				}
-				
-				while (!callSt.isEmpty() && (((TreeUtil.Node) callSt.peek()).right != null)
-						&& ((TreeUtil.Node) callSt.peek()).right.data.equals(aux.data)) {
-					aux = (TreeUtil.Node) callSt.pop();
-					if (!"NULL".equals(aux.data)) {
-						System.out.print(aux.data);
-					}
-				}
-				
-				
 				continue;
 			}
 			if (aux != null) {
@@ -222,48 +194,38 @@ public class StackEx {
 		while (!callSt.isEmpty()) {
 			aux = (TreeUtil.Node) callSt.pop();
 			if (aux.left == null && aux.right == null) {
-				if (!"NULL".equals(aux.data)) {
-					System.out.print(aux.data);
-					if(!callSt.isEmpty()){
-						aux = (TreeUtil.Node) callSt.pop();
-						if(!"NULL".equals(aux.data)){
-							System.out.print(aux.data);
-						}
-					}
-				}
-				while (!callSt.isEmpty()&&((TreeUtil.Node) callSt.peek()).right==null) {
+				System.out.print(aux.data);
+
+				if (!callSt.isEmpty()) {
 					aux = (TreeUtil.Node) callSt.pop();
-					if (!"NULL".equals(aux.data)) {
-						System.out.print(aux.data);
-						if(!callSt.isEmpty()){
-							aux = (TreeUtil.Node) callSt.pop();
-							if(!"NULL".equals(aux.data)){
-								System.out.print(aux.data);
-							}
-						}
-					}
+					System.out.print(aux.data);
 				}
+
+				while (!callSt.isEmpty() && aux.right == null) {
+					aux = (TreeUtil.Node) callSt.pop();
+					System.out.print(aux.data);
+				}
+
 				continue;
+
 			}
 			if (aux.left == null) {
-				if (!"NULL".equals(aux.data)) {
-					System.out.print(aux.data);
-				}
+				System.out.print(aux.data);
 				if (aux.right != null) {
 					callSt.push(aux.right);
 				}
-				continue;
-			}
-			if (aux.right != null) {
-				callSt.push(aux.right);
-			}
-			if (aux != null) {
-				callSt.push(aux);
-			}
-			if (aux.left != null) {
-				callSt.push(aux.left);
-			}
+			} else {
 
+				if (aux.right != null) {
+					callSt.push(aux.right);
+				}
+				if (aux != null) {
+					callSt.push(aux);
+				}
+				if (aux.left != null) {
+					callSt.push(aux.left);
+				}
+			}
 		}
 
 	}
@@ -271,7 +233,7 @@ public class StackEx {
 	public static void testCase1() {
 
 		// TODO Auto-generated method stub
-		TreeUtil tu=null;
+		TreeUtil tu = null;
 		try {
 			tu = new TreeUtil();
 		} catch (IOException e) {
@@ -288,12 +250,13 @@ public class StackEx {
 		System.out.print("\nThe In order:");
 		se.printinInrder(tu.root);
 
-//		System.out.println("\nThe kth Max values ..." + se.findkthMaxElement(tu.root, 3));
+		// System.out.println("\nThe kth Max values ..." +
+		// se.findkthMaxElement(tu.root, 3));
 
 	}
 
 	public static void testCase2() {
-		TreeUtil tu=null;
+		TreeUtil tu = null;
 		try {
 			tu = new TreeUtil();
 		} catch (IOException e) {
