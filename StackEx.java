@@ -98,7 +98,7 @@ public class StackEx {
 		ArrayList<String> visited = new ArrayList<String>();
 	}
 
-	public String getCommonAnsister(TreeUtil.Node root, String n1, String n2) {
+	public String getNearestCommonAncestor(TreeUtil.Node root, String n1, String n2) {
 		String result = "";
 		Stack<DSFframe> callStack = new Stack<DSFframe>();
 		DSFframe aux = null, aux2 = null;
@@ -194,20 +194,13 @@ public class StackEx {
 		while (!callSt.isEmpty()) {
 			aux = (TreeUtil.Node) callSt.pop();
 			if (aux.left == null && aux.right == null) {
+				
+				while(!callSt.isEmpty()&&aux.right==null){
+					System.out.print(aux.data);
+					aux = (TreeUtil.Node) callSt.pop();
+				}
 				System.out.print(aux.data);
-
-				if (!callSt.isEmpty()) {
-					aux = (TreeUtil.Node) callSt.pop();
-					System.out.print(aux.data);
-				}
-
-				while (!callSt.isEmpty() && aux.right == null) {
-					aux = (TreeUtil.Node) callSt.pop();
-					System.out.print(aux.data);
-				}
-
 				continue;
-
 			}
 			if (aux.left == null) {
 				System.out.print(aux.data);
@@ -271,7 +264,7 @@ public class StackEx {
 		System.out.println("Enter node 2");
 		n2 = sc.nextLine();
 
-		System.out.println("The Nearsert common root of " + se.getCommonAnsister(tu.root, n1, n2));
+		System.out.println("The Nearsert common root of " + se.getNearestCommonAncestor(tu.root, n1, n2));
 	}
 
 	public static void main(String[] args) {
