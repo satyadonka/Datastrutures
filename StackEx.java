@@ -63,15 +63,17 @@ public class StackEx {
 		callSt.push(root);
 		TreeUtil.Node aux = null;
 		while (!callSt.isEmpty()) {
-			/**
-			 * reading LEFT /RIGHT
-			 */
 			aux = (TreeUtil.Node) callSt.pop();
 			if (aux.right == null && aux.left == null) {
+				/**
+				 * it may be LEFT /RIGHT of the TOS
+				 */
 				System.out.print(aux.data);
-				while (!callSt.isEmpty()
-						&&( ((((TreeUtil.Node) callSt.peek()).right != null)
-								&& ((TreeUtil.Node) callSt.peek()).right.data.equals(aux.data))
+				/**
+				 * Print TOS as long as it is LEFT /RIGHT of the TOS
+				 */
+				while (!callSt.isEmpty() && (((((TreeUtil.Node) callSt.peek()).right != null)
+						&& ((TreeUtil.Node) callSt.peek()).right.data.equals(aux.data))
 						|| ((((TreeUtil.Node) callSt.peek()).left != null)
 								&& ((TreeUtil.Node) callSt.peek()).left.data.equals(aux.data)))) {
 					aux = (TreeUtil.Node) callSt.pop();
@@ -172,9 +174,7 @@ public class StackEx {
 			if (!"NULL".equals(aux.data)) {
 				System.out.print(aux.data);
 			}
-			if (aux.left == null && aux.right == null) {
-				continue;
-			}
+
 			if (aux.right != null) {
 				callSt.push(aux.right);
 			}
@@ -192,16 +192,27 @@ public class StackEx {
 		TreeUtil.Node aux = null;
 
 		while (!callSt.isEmpty()) {
+			
 			aux = (TreeUtil.Node) callSt.pop();
+			
 			if (aux.left == null && aux.right == null) {
-				
-				while(!callSt.isEmpty()&&aux.right==null){
+				/**
+				 * once again checking the right pointer to generalize
+				 */
+				while (!callSt.isEmpty() && aux.right == null) {
 					System.out.print(aux.data);
 					aux = (TreeUtil.Node) callSt.pop();
 				}
+				/**
+				 * Printing the root whose right sub tree not yet explored
+				 */
 				System.out.print(aux.data);
 				continue;
 			}
+			
+			/**
+			 * Left ==null can be printed at insertion time only
+			 */
 			if (aux.left == null) {
 				System.out.print(aux.data);
 				if (aux.right != null) {
