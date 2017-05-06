@@ -1,6 +1,3 @@
-/*
- *  Thank you Jesus
- */
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -108,7 +105,7 @@ public class StackUtil {
 		Stack<TreeUtil.Node> callStack = new Stack<TreeUtil.Node>();
 		callStack.push(root);
 		String rootStr = root.data;
-		TreeUtil.Node aux = null,next=null;
+		TreeUtil.Node aux = null, next = null;
 		String currentRoot = "";
 		int cnt = 0;
 
@@ -121,18 +118,33 @@ public class StackUtil {
 			if (aux.left == null && aux.right == null) {
 				aux = callStack.pop();
 
+				/**
+				 * This condition is to check the popped element is direct child
+				 * of the TOS or not(in case the root of this node has right
+				 * child)
+				 */
 				while (!callStack.isEmpty() && (((callStack.peek().right != null)
 						&& (callStack.peek().right.data.equals(aux.data)))
-						|| ((callStack.peek().left != null) && (callStack.peek().left.data.equals(aux.data))))) { 
-					
+						|| ((callStack.peek().left != null) && (callStack.peek().left.data.equals(aux.data))))) {
+
 					aux = callStack.pop();
-					if(aux.data.equals(currentRoot)){
-						next=callStack.peek();
-						if(next!=null&&((next.left!=null)&&(next.left.data.equals(aux.data))||(next.right!=null)&&(next.right.data.equals(aux.data)))){
-							currentRoot=next.data;
-						}else{
-							next=callStack.pop();
-							currentRoot=callStack.peek().data;
+					if (aux.data.equals(currentRoot)) {
+						next = callStack.peek();
+						/**
+						 * This condition is to check the popped element is
+						 * direct child of the TOS or not(in case the root of
+						 * this node has right child)
+						 */
+						if (next != null && ((next.left != null) && (next.left.data.equals(aux.data))
+								|| (next.right != null) && (next.right.data.equals(aux.data)))) {
+							currentRoot = next.data;
+						} else {
+							/**
+							 * if the popped element root has Right child,Right
+							 * child root become the current root
+							 */
+							next = callStack.pop();
+							currentRoot = callStack.peek().data;
 							callStack.push(next);
 						}
 					}
@@ -353,7 +365,6 @@ public class StackUtil {
 
 	public static void testCase3() {
 
-		// TODO Auto-generated method stub
 		TreeUtil tu = null;
 		try {
 			tu = new TreeUtil();
@@ -362,8 +373,13 @@ public class StackUtil {
 			e.printStackTrace();
 		}
 		StackUtil se = new StackUtil();
-		System.out.print("The post order:");
-		System.out.println(se.getLowestCommonAncestor(tu.root, "D", "E"));
+		Scanner sc = new Scanner(System.in);
+		String n1 = "", n2 = "";
+		System.out.println("Enter node 1");
+		n1 = sc.nextLine();
+		System.out.println("Enter node 2");
+		n2 = sc.nextLine();
+		System.out.println("The Nearsert common root of " + se.getLowestCommonAncestor(tu.root, n1, n2));
 
 	}
 
