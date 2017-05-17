@@ -14,13 +14,15 @@ public class TreeBuilder {
 	static String options[] = null;
 	static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));;
 
-public static  String getDynamicPadding(int len){
-	String pad=" ";
-	for(int i=0;i<len;i++){
-		pad+=pad;
+	public static String getDynamicPadding(int len) {
+		String pad = " ";
+		for (int i = 0; i < len; i++) {
+			pad += pad;
+		}
+		return pad;
 	}
-	return pad;
-}
+
+
 	public static void printNodesAt(int level, ArrayList<Node> list) {
 		String padding = " ";
 		String auxStr = "";
@@ -29,7 +31,7 @@ public static  String getDynamicPadding(int len){
 		for (int i = 0; i < len; i++) {
 			auxStr += padding;
 		}
-		for (int i = 0; i < len; i++) {
+		for (int i = 0; i < len-(level-2); i++) {
 			auxStr_r += padding;
 		}
 		len = list.size();// (int) Math.pow(2, level);
@@ -41,7 +43,7 @@ public static  String getDynamicPadding(int len){
 			} else if (aux.getData().equals("NULL")) {
 				System.out.print(auxStr + auxStr);
 			} else {
-				System.out.print(auxStr + aux.getData() + auxStr);
+				System.out.print(auxStr + aux.getData() + auxStr_r);
 			}
 		}
 
@@ -53,7 +55,7 @@ public static  String getDynamicPadding(int len){
 		System.out.print("Enter the Height of the Tree:");
 		h = Integer.parseInt(br.readLine());
 		padingLen = (int) Math.pow(2, h);
-		 padingLen = padingLen * h*2;
+		padingLen = padingLen * h;
 		ArrayList<Node> list = new ArrayList<Node>();
 		System.out.print("Interactive :");
 		String option = br.readLine();
@@ -104,7 +106,7 @@ public static  String getDynamicPadding(int len){
 	 */
 	public static void constructTree(int level, ArrayList<Node> list) {
 		if (level == 0) {
-			root.setData("ooo");
+			root.setData("oo");
 			list.add(root);
 			constructTree(level + 1, list);
 		}
@@ -123,7 +125,7 @@ public static  String getDynamicPadding(int len){
 			next = new Node();
 			qt = cnt / 26;
 			if (qt > 0) {
-				next.setData(labels[cnt] + "_" + qt);
+				next.setData(labels[cnt] + "" + qt);
 			} else {
 				next.setData(labels[cnt]);
 			}
@@ -133,7 +135,7 @@ public static  String getDynamicPadding(int len){
 			qt = (cnt + 1) / 26;
 			cnt = (cnt + 1) % 26;
 			if (qt > 0) {
-				next.setData(labels[cnt] + "_" + qt);
+				next.setData(labels[cnt] + "" + qt);
 			} else {
 				next.setData(labels[cnt]);
 			}
@@ -157,7 +159,7 @@ public static  String getDynamicPadding(int len){
 		ArrayList<Node> nextList = new ArrayList<Node>();
 		String option = "";
 		if (level == 0) {
-			root.setData("ooo");
+			root.setData("oo");
 			list.add(root);
 			constructTreeByNonIntrative(level + 1, list);
 			return;
@@ -177,7 +179,7 @@ public static  String getDynamicPadding(int len){
 			if (option.equalsIgnoreCase("Y")) {
 				next = new Node();
 				if (qt > 0) {
-					next.setData(labels[cnt] + "_" + qt);
+					next.setData(labels[cnt] + "" + qt);
 				} else {
 					next.setData(labels[cnt]);
 				}
@@ -192,7 +194,7 @@ public static  String getDynamicPadding(int len){
 				qt += (cnt + 1) / 26;
 				cnt = (cnt + 1) % 26;
 				if (qt > 0) {
-					next.setData(labels[cnt] + "_" + qt);
+					next.setData(labels[cnt] + "" + qt);
 				} else {
 					next.setData(labels[cnt]);
 				}
@@ -220,7 +222,7 @@ public static  String getDynamicPadding(int len){
 		ArrayList<Node> nextList = new ArrayList<Node>();
 		String options = "";
 		if (level == 0) {
-			root.setData("ooo");
+			root.setData("oo");
 			list.add(root);
 			constructTreeByIntrative(level + 1, list);
 			return;
@@ -241,7 +243,7 @@ public static  String getDynamicPadding(int len){
 			if (options.equalsIgnoreCase("Y")) {
 				next = new Node();
 				if (qt > 0) {
-					next.setData(labels[cnt] + "_" + qt);
+					next.setData(labels[cnt] + "" + qt);
 				} else {
 					next.setData(labels[cnt]);
 				}
@@ -258,7 +260,7 @@ public static  String getDynamicPadding(int len){
 				qt += (cnt + 1) / 26;
 				cnt = (cnt + 1) % 26;
 				if (qt > 0) {
-					next.setData(labels[cnt] + "_" + qt);
+					next.setData(labels[cnt] + "" + qt);
 				} else {
 					next.setData(labels[cnt]);
 				}
@@ -341,5 +343,4 @@ public static  String getDynamicPadding(int len){
 			return data;
 		}
 	}
-
 }
