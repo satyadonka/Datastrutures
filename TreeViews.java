@@ -103,7 +103,7 @@ public class TreeViews {
 	 * @param s
 	 * @param d
 	 */
-	public static void viewAllsaroundingNodesAt(Node r, Node s, int d) {
+	public static void viewAllsurroundingNodesAt(Node r, Node s, int d) {
 		Stack<DFSFrame> callStack = populateInDFS(r, s);
 		DFSFrame aux = null;
 		int cnt = 0;
@@ -236,7 +236,7 @@ public class TreeViews {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		TreeViews tv = new TreeViews();
-		TreeViews.viewAllsaroundingNodesAt(tv.root, tv.root.left, 2);
+		TreeViews.viewAllsurroundingNodesAt(tv.root, tv.root.left, 2);
 		// TreeViews.populateInDFS(tv.root, tv.root.left.right);
 	}
 
