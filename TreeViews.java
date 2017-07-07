@@ -14,8 +14,56 @@ public class TreeViews {
 
 		root = TreeBuilder.getRoot();
 	}
+	
+	/**
+	 * pre order
+	 * @param r
+	 */
+		public static void printLeftView(Node r) {
+			LevelNode aux = null, prevRoot = null, lchild = null, rchild = null;
+			Stack<LevelNode> callStack = new Stack<LevelNode>();
+			LevelNode root = new LevelNode();
+			root.cnode = r;
+			root.level = 0;
+			callStack.push(root);
+	//		System.out.print(root.cnode.data);
+			prevRoot = root;
+			int level = 1, prevLevel = -1;
+			while (!callStack.isEmpty()) {
+				aux = callStack.pop();
+				level = aux.level;
+				/**
+				 * Pushing
+				 */
 
-	public static void printLeftView(Node r) {
+				if (aux.level > prevLevel) {
+					prevLevel = aux.level;
+					System.out.print(" " + aux.cnode.data);
+				}
+				level++;
+				if (aux.cnode.right != null) {
+					lchild = new LevelNode();
+					lchild.cnode = aux.cnode.right;
+					lchild.level = level;
+					callStack.push(lchild);
+				}
+				if (aux.cnode.left != null) {
+					rchild = new LevelNode();
+					rchild.cnode = aux.cnode.left;
+					rchild.level = level;
+					callStack.push(rchild);
+				}
+
+				prevRoot = aux;
+				
+			}
+		}
+	
+/**
+ * pre order
+ * @param r
+ */
+	public static void printLeftView_1(Node r) {
 		LevelNode aux = null, prevRoot = null, lchild = null, rchild = null;
 		Stack<LevelNode> callStack = new Stack<LevelNode>();
 		LevelNode root = new LevelNode();
@@ -236,7 +284,8 @@ public class TreeViews {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		TreeViews tv = new TreeViews();
-		TreeViews.viewAllsurroundingNodesAt(tv.root, tv.root.left, 2);
+		//TreeViews.viewAllsurroundingNodesAt(tv.root, tv.root.left, 2);
+		TreeViews.printLeftView(tv.root);
 		// TreeViews.populateInDFS(tv.root, tv.root.left.right);
 	}
 
