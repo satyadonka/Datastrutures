@@ -1,4 +1,3 @@
-
 /**
  * 						THANK YOU JESUS
  */
@@ -7,17 +6,15 @@ import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.Stack;
 
-import trees.TreeUtil;
-
 public class StackUtil {
-	public String findkthMaxElement(TreeUtil.Node root, int k) {
+	public String findkthMaxElement(TreeBuilder.Node root, int k) {
 		int loc = 0;
 		Stack callSt = new Stack();
 		callSt.push(root);
-		TreeUtil.Node aux = null;
+		TreeBuilder.Node aux = null;
 
 		while (!callSt.isEmpty()) {
-			aux = (TreeUtil.Node) callSt.pop();
+			aux = (TreeBuilder.Node) callSt.pop();
 			if (aux.left == null && aux.right == null) {
 				if (!"NULL".equals(aux.data)) {
 					loc++;
@@ -26,7 +23,7 @@ public class StackUtil {
 					}
 				}
 				if (!callSt.isEmpty()) {
-					aux = (TreeUtil.Node) callSt.pop();
+					aux = (TreeBuilder.Node) callSt.pop();
 					if (!"NULL".equals(aux.data)) {
 						loc++;
 						if (loc == k) {
@@ -51,7 +48,7 @@ public class StackUtil {
 		return "";
 	}
 
-	public static void postorderSuccOf(TreeUtil.Node root, String ele) {
+	public static void postorderSuccOf(TreeBuilder.Node root, String ele) {
 		// Navigate to left,Navigate to Right,Process
 		Stack callSt = new Stack();
 		callSt.push(root);
@@ -67,25 +64,26 @@ public class StackUtil {
 	 * 
 	 * @param root
 	 */
-	public void printinPostorder(TreeUtil.Node root) {
+	public void printinPostorder(TreeBuilder.Node root) {
 		Stack callSt = new Stack();
 		callSt.push(root);
-		TreeUtil.Node aux = null;
+		TreeBuilder.Node aux = null;
 		while (!callSt.isEmpty()) {
-			aux = (TreeUtil.Node) callSt.pop();
+			aux = (TreeBuilder.Node) callSt.pop();
 			if (aux.right == null && aux.left == null) {
 				/**
-				 * it may be LEFT /RIGHT of the TOS
+				 *The popped element is child of TOS or sibling of TOS
 				 */
 				System.out.print(aux.data);
 				/**
-				 * Print TOS as long as it is LEFT /RIGHT of the TOS
+				 * Print as long as parent child relation exist between popped element and TOS
+				 *  Stop once sibling relation encounter between popped element and TOS
 				 */
-				while (!callSt.isEmpty() && (((((TreeUtil.Node) callSt.peek()).right != null)
-						&& ((TreeUtil.Node) callSt.peek()).right.data.equals(aux.data))
-						|| ((((TreeUtil.Node) callSt.peek()).left != null)
-								&& ((TreeUtil.Node) callSt.peek()).left.data.equals(aux.data)))) {
-					aux = (TreeUtil.Node) callSt.pop();
+				while (!callSt.isEmpty() && (((((TreeBuilder.Node) callSt.peek()).right != null)
+						&& ((TreeBuilder.Node) callSt.peek()).right.data.equals(aux.data))
+						|| ((((TreeBuilder.Node) callSt.peek()).left != null)
+								&& ((TreeBuilder.Node) callSt.peek()).left.data.equals(aux.data)))) {
+					aux = (TreeBuilder.Node) callSt.pop();
 					System.out.print(aux.data);
 
 				}
@@ -104,12 +102,12 @@ public class StackUtil {
 		}
 	}
 
-	public String getLowestCommonAncestor(TreeUtil.Node root, String n1, String n2) {
+	public String getLowestCommonAncestor(TreeBuilder.Node root, String n1, String n2) {
 		String result = "";
-		Stack<TreeUtil.Node> callStack = new Stack<TreeUtil.Node>();
+		Stack<TreeBuilder.Node> callStack = new Stack<TreeBuilder.Node>();
 		callStack.push(root);
 		String rootStr = root.data;
-		TreeUtil.Node aux = null, next = null;
+		TreeBuilder.Node aux = null, next = null;
 		String currentRoot = "";
 		int cnt = 0;
 
@@ -123,9 +121,8 @@ public class StackUtil {
 				aux = callStack.pop();
 
 				/**
-				 * This condition is to check the popped element is direct child
-				 * of the TOS or not(in case the root of this node has right
-				 * child)
+				 * This condition is to check the popped element is direct child of the TOS or
+				 * not(in case the root of this node has right child)
 				 */
 				while (!callStack.isEmpty() && (((callStack.peek().right != null)
 						&& (callStack.peek().right.data.equals(aux.data)))
@@ -135,17 +132,16 @@ public class StackUtil {
 					if (aux.data.equals(currentRoot)) {
 						next = callStack.peek();
 						/**
-						 * This condition is to check the popped element is
-						 * direct child of the TOS or not(in case the root of
-						 * this node has right child)
+						 * This condition is to check the popped element is direct child of the TOS or
+						 * not(in case the root of this node has right child)
 						 */
 						if (next != null && ((next.left != null) && (next.left.data.equals(aux.data))
 								|| (next.right != null) && (next.right.data.equals(aux.data)))) {
 							currentRoot = next.data;
 						} else {
 							/**
-							 * if the popped element root has Right child,Right
-							 * child root become the current root
+							 * if the popped element root has Right child,Right child root become the
+							 * current root
 							 */
 							next = callStack.pop();
 							currentRoot = callStack.peek().data;
@@ -185,11 +181,11 @@ public class StackUtil {
 	}
 
 	class DSFframe {
-		TreeUtil.Node node;
+		TreeBuilder.Node node;
 		ArrayList<String> visited = new ArrayList<String>();
 	}
 
-	public String getNearestCommonAncestor(TreeUtil.Node root, String n1, String n2) {
+	public String getNearestCommonAncestor(TreeBuilder.Node root, String n1, String n2) {
 		String result = "";
 		Stack<DSFframe> callStack = new Stack<DSFframe>();
 		DSFframe aux = null, aux2 = null;
@@ -253,13 +249,13 @@ public class StackUtil {
 		return result;
 	}
 
-	public void printinPreOrder(TreeUtil.Node root) {
+	public void printinPreOrder(TreeBuilder.Node root) {
 		Stack callSt = new Stack();
 		callSt.push(root);
-		TreeUtil.Node aux = null;
+		TreeBuilder.Node aux = null;
 
 		while (!callSt.isEmpty()) {
-			aux = (TreeUtil.Node) callSt.pop();
+			aux = (TreeBuilder.Node) callSt.pop();
 			if (!"NULL".equals(aux.data)) {
 				System.out.print(aux.data);
 			}
@@ -275,14 +271,14 @@ public class StackUtil {
 
 	}
 
-	public void printinInrder(TreeUtil.Node root) {
+	public void printinInrder(TreeBuilder.Node root) {
 		Stack callSt = new Stack();
 		callSt.push(root);
-		TreeUtil.Node aux = null;
+		TreeBuilder.Node aux = null;
 
 		while (!callSt.isEmpty()) {
 
-			aux = (TreeUtil.Node) callSt.pop();
+			aux = (TreeBuilder.Node) callSt.pop();
 
 			if (aux.left == null && aux.right == null) {
 				/**
@@ -290,7 +286,7 @@ public class StackUtil {
 				 */
 				while (!callSt.isEmpty() && aux.right == null) {
 					System.out.print(aux.data);
-					aux = (TreeUtil.Node) callSt.pop();
+					aux = (TreeBuilder.Node) callSt.pop();
 				}
 				/**
 				 * Printing the root whose right sub tree not yet explored
@@ -326,9 +322,9 @@ public class StackUtil {
 	public static void testCase1() {
 
 		// TODO Auto-generated method stub
-		TreeUtil tu = null;
+		TreeBuilder tu = null;
 		try {
-			tu = new TreeUtil();
+			tu = new TreeBuilder();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -349,9 +345,9 @@ public class StackUtil {
 	}
 
 	public static void testCase2() {
-		TreeUtil tu = null;
+		TreeBuilder tu = null;
 		try {
-			tu = new TreeUtil();
+			tu = new TreeBuilder();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -369,9 +365,9 @@ public class StackUtil {
 
 	public static void testCase3() {
 
-		TreeUtil tu = null;
+		TreeBuilder tu = null;
 		try {
-			tu = new TreeUtil();
+			tu = new TreeBuilder();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
