@@ -1,3 +1,7 @@
+package trees;
+/**
+ * 						THANK YOU JESUS
+ */
 import java.io.IOException;
 import java.util.Stack;
 
