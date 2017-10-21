@@ -1,6 +1,6 @@
 package dataStructures;
-//This is to extract the non repeated charterer String
- 
+//This is to extract the Non Repeated Charterer String
+
 public class NRCS {
 	public String getNRCStr(String data) {
 		String result = "", aux = "";
